@@ -1,0 +1,193 @@
+Jan-22 10:47:37.876 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf --input FASTQs/sample_sheet_5.csv --design_file reference_files/CALR_JAK2_MPL_mipgen.txt --annotated_design_file reference_files/annotated_MPN_panel_genes.txt --phenotype reference_files/configuration_5.txt -stub
+Jan-22 10:47:38.128 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.0
+Jan-22 10:47:38.156 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/pierre/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.2,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.0
+Jan-22 10:47:38.171 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Jan-22 10:47:38.173 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Jan-22 10:47:38.178 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Jan-22 10:47:38.223 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Jan-22 10:47:38.259 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/nextflow.config
+Jan-22 10:47:38.261 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/nextflow.config
+Jan-22 10:47:38.287 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Jan-22 10:47:39.175 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+Jan-22 10:47:39.196 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [infallible_nightingale] DSL2 - revision: 757137b8f0
+Jan-22 10:47:39.197 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Jan-22 10:47:39.197 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Jan-22 10:47:39.209 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/pierre/.nextflow/secrets/store.json
+Jan-22 10:47:39.214 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@31dfc6f5] - activable => nextflow.secret.LocalSecretsProvider@31dfc6f5
+Jan-22 10:47:39.299 [main] DEBUG nextflow.Session - Session UUID: 44210603-901b-4b78-94d4-235ba65b76d4
+Jan-22 10:47:39.300 [main] DEBUG nextflow.Session - Run name: infallible_nightingale
+Jan-22 10:47:39.300 [main] DEBUG nextflow.Session - Executor pool size: 8
+Jan-22 10:47:39.310 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Jan-22 10:47:39.316 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Jan-22 10:47:39.344 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 23.10.0 build 5889
+  Created: 15-10-2023 15:07 UTC (16:07 IST)
+  System: Linux 5.8.0-44-generic
+  Runtime: Groovy 3.0.19 on OpenJDK 64-Bit Server VM 17.0.9-internal+0-adhoc..src
+  Encoding: UTF-8 (UTF-8)
+  Process: 124482@pierre-Latitude-5510 [127.0.1.1]
+  CPUs: 8 - Mem: 31 GB (15.7 GB) - Swap: 0 (0)
+Jan-22 10:47:39.368 [main] DEBUG nextflow.Session - Work-dir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work [ext2/ext3]
+Jan-22 10:47:39.388 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Jan-22 10:47:39.401 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jan-22 10:47:39.457 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Jan-22 10:47:39.469 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Jan-22 10:47:39.563 [main] DEBUG nextflow.Session - Session start
+Jan-22 10:47:39.568 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/results/pipeline_info/execution_trace_2024-01-22_10-47-39.txt
+Jan-22 10:47:39.835 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jan-22 10:47:39.851 [main] INFO  nextflow.script.BaseScript - 
+        Running::
+
+         sssss   mmmm mmmm   M   M     I  PPPP       aaaaa  nnnn    aaaaa  l   y   y  sssss  iiii sssss
+        s       m   mm   m  MM MM MM   I  P   P      a   a  n   n   a   a  l    y y   s       ii  s
+         sss    m   mm   m  M M M  M   I  PPPP       aaaaa  n   n   aaaaa  l     y     sss    ii   sss
+            s   m   mm   m  M   M  M   I  P          a   a  n   n   a   a  l    y         s   ii      s
+        sssss   m   mm   m  M   M  M   I  P          a   a  n   n   a   a  ll  y      sssss  iiii sssss
+        
+Jan-22 10:47:39.852 [main] INFO  nextflow.script.BaseScript - Parameters::
+Jan-22 10:47:39.852 [main] INFO  nextflow.script.BaseScript - 
+Jan-22 10:47:39.862 [main] INFO  nextflow.script.BaseScript -     MAPQ                 : 50
+Jan-22 10:47:39.868 [main] INFO  nextflow.script.BaseScript -     OVERLAP              : 0.95
+Jan-22 10:47:39.869 [main] INFO  nextflow.script.BaseScript -     annotated_design_file : reference_files/annotated_MPN_panel_genes.txt
+Jan-22 10:47:39.869 [main] INFO  nextflow.script.BaseScript -     bam_dir              : null
+Jan-22 10:47:39.869 [main] INFO  nextflow.script.BaseScript -     binomial             : sum
+Jan-22 10:47:39.870 [main] INFO  nextflow.script.BaseScript -     bwa                  : /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/reference_files/references/Homo_sapiens/GATK/GRCh38/Sequence/BWAmem2Index/
+Jan-22 10:47:39.870 [main] INFO  nextflow.script.BaseScript -     consensus_cutoff     : 0.7
+Jan-22 10:47:39.870 [main] INFO  nextflow.script.BaseScript -     design_file          : reference_files/CALR_JAK2_MPL_mipgen.txt
+Jan-22 10:47:39.871 [main] INFO  nextflow.script.BaseScript -     drop                 : 2
+Jan-22 10:47:39.871 [main] INFO  nextflow.script.BaseScript -     family_size          : 0
+Jan-22 10:47:39.872 [main] INFO  nextflow.script.BaseScript -     filtered_reads       : n
+Jan-22 10:47:39.875 [main] INFO  nextflow.script.BaseScript -     genome               : GRCh38
+Jan-22 10:47:39.876 [main] INFO  nextflow.script.BaseScript -     input                : FASTQs/sample_sheet_5.csv
+Jan-22 10:47:39.876 [main] INFO  nextflow.script.BaseScript -     maf                  : 0.001
+Jan-22 10:47:39.876 [main] INFO  nextflow.script.BaseScript -     mbq                  : 10
+Jan-22 10:47:39.877 [main] INFO  nextflow.script.BaseScript -     mmq                  : 50
+Jan-22 10:47:39.878 [main] INFO  nextflow.script.BaseScript -     mnd                  : 1
+Jan-22 10:47:39.878 [main] INFO  nextflow.script.BaseScript -     outdir               : results
+Jan-22 10:47:39.879 [main] INFO  nextflow.script.BaseScript -     overlap_coverage     : 10
+Jan-22 10:47:39.879 [main] INFO  nextflow.script.BaseScript -     phenotype            : reference_files/configuration_5.txt
+Jan-22 10:47:39.880 [main] INFO  nextflow.script.BaseScript -     pval                 : 0.05
+Jan-22 10:47:39.880 [main] INFO  nextflow.script.BaseScript -     rank                 : F
+Jan-22 10:47:39.881 [main] INFO  nextflow.script.BaseScript -     threads              : 1
+Jan-22 10:47:39.882 [main] INFO  nextflow.script.BaseScript -     umi                  : T
+Jan-22 10:47:39.883 [main] INFO  nextflow.script.BaseScript -     vaf                  : 0.05
+Jan-22 10:47:39.883 [main] INFO  nextflow.script.BaseScript - 
+Jan-22 10:47:41.047 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.047 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.055 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Jan-22 10:47:41.062 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=8; memory=31 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+Jan-22 10:47:41.065 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Jan-22 10:47:41.260 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.260 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.273 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.274 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.297 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.297 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.312 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.312 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.324 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.324 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.340 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Jan-22 10:47:41.340 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Jan-22 10:47:41.345 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: FASTQC, SAMPLESHEET_CHECK, ANNOTATE_SNVs, MULTIQC, CALL_MUTATIONS, SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS, SMMIP_ANALYSIS:SMMIP:QC:MULTIQC, MAP_SMMIPS, PILEUPS, BWAMEM2_MEM, SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS, SMMIP_ANALYSIS:SMMIP:INPUT_CHECK:SAMPLESHEET_CHECK, SMMIP_ANALYSIS:SMMIP:PILEUPS, SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM, SMMIP_ANALYSIS:SMMIP:QC:FASTQC
+Jan-22 10:47:41.346 [main] DEBUG nextflow.Session - Igniting dataflow network (9)
+Jan-22 10:47:41.353 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:INPUT_CHECK:SAMPLESHEET_CHECK
+Jan-22 10:47:41.354 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:QC:FASTQC
+Jan-22 10:47:41.354 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:QC:MULTIQC
+Jan-22 10:47:41.354 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM
+Jan-22 10:47:41.355 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS
+Jan-22 10:47:41.356 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:PILEUPS
+Jan-22 10:47:41.356 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS
+Jan-22 10:47:41.356 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_f04ebcc3c926a91f: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../modules/map_smmips/main.nf
+  Script_78bcc980fae50035: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../subworkflows/../modules/samplesheet_check/main.nf
+  Script_03bd1c7f80ad2193: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../subworkflows/fastqc/../../modules/fastqc/main.nf
+  Script_594512061f22c122: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/smmip.nf
+  Script_1c1b7966df89e3ee: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../modules/bwamem2/main.nf
+  Script_40e1f65e24dd2f5e: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../subworkflows/fastqc/fastqc.nf
+  Script_9ebf7df86e493437: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../modules/call_mutations/main.nf
+  Script_3d7201ffe1c1669e: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/main.nf
+  Script_77480b489243c1ce: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../modules/pileups/main.nf
+  Script_e0013d7166cd0ce0: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../subworkflows/input_check.nf
+  Script_1448cff7a185be3c: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../modules/annotate_snvs/main.nf
+  Script_100e2dbf95cbea3c: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/./workflows/../subworkflows/fastqc/../../modules/multiqc/main.nf
+Jan-22 10:47:41.357 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Jan-22 10:47:41.357 [main] DEBUG nextflow.Session - Session await
+Jan-22 10:47:41.521 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.525 [Task submitter] INFO  nextflow.Session - [89/c95e8e] Submitted process > SMMIP_ANALYSIS:SMMIP:INPUT_CHECK:SAMPLESHEET_CHECK
+Jan-22 10:47:41.642 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: SMMIP_ANALYSIS:SMMIP:INPUT_CHECK:SAMPLESHEET_CHECK; status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/89/c95e8e4c4c902996af61daa09f3c3b]
+Jan-22 10:47:41.717 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.719 [Task submitter] INFO  nextflow.Session - [91/7ec220] Submitted process > SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10421RRR_S13)
+Jan-22 10:47:41.742 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.744 [Task submitter] INFO  nextflow.Session - [b6/e1974e] Submitted process > SMMIP_ANALYSIS:SMMIP:QC:FASTQC (MPNCtrl20230928B_S67)
+Jan-22 10:47:41.756 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.759 [Task submitter] INFO  nextflow.Session - [7e/85c6d4] Submitted process > SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10421RRR_S13)
+Jan-22 10:47:41.783 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.783 [Task submitter] INFO  nextflow.Session - [d1/28755f] Submitted process > SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10413RRR_S8)
+Jan-22 10:47:41.795 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.795 [Task submitter] INFO  nextflow.Session - [65/674ae9] Submitted process > SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10413RRR_S8)
+Jan-22 10:47:41.803 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.815 [Task submitter] INFO  nextflow.Session - [6d/ce01a0] Submitted process > SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (MPNCtrl20230928B_S67)
+Jan-22 10:47:41.823 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.827 [Task submitter] INFO  nextflow.Session - [03/948bc5] Submitted process > SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10420RRR_S12)
+Jan-22 10:47:41.834 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:41.834 [Task submitter] INFO  nextflow.Session - [b3/cddefb] Submitted process > SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10420RRR_S12)
+Jan-22 10:47:42.280 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10413RRR_S8); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/d1/28755f3f96f1a5946cdfbe9a3e9b20]
+Jan-22 10:47:42.317 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=24; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Jan-22 10:47:42.331 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 9; name: SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10421RRR_S13); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/91/7ec220dd83759a4f726c2b34b6e202]
+Jan-22 10:47:42.338 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: SMMIP_ANALYSIS:SMMIP:QC:FASTQC (MPNCtrl20230928B_S67); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/b6/e1974ebee3b425a370ebf78f6928dc]
+Jan-22 10:47:42.393 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: SMMIP_ANALYSIS:SMMIP:QC:FASTQC (N23-10420RRR_S12); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/03/948bc5f5df794b6b7f3c1d61240a56]
+Jan-22 10:47:42.404 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:42.405 [Task submitter] INFO  nextflow.Session - [be/ab9d77] Submitted process > SMMIP_ANALYSIS:SMMIP:QC:MULTIQC
+Jan-22 10:47:42.507 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: SMMIP_ANALYSIS:SMMIP:QC:MULTIQC; status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/be/ab9d775fb3a7153404e392ce4b9e11]
+Jan-22 10:47:42.933 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 7; name: SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10421RRR_S13); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/7e/85c6d460e1eeb461072a987aac722d]
+Jan-22 10:47:42.982 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10413RRR_S8); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/65/674ae917bf27f575cba24bb3d7ae40]
+Jan-22 10:47:42.989 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (MPNCtrl20230928B_S67); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/6d/ce01a09e6dc914208b0d94f60bb465]
+Jan-22 10:47:43.001 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.003 [Task submitter] INFO  nextflow.Session - [7a/f05d7d] Submitted process > SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (3)
+Jan-22 10:47:43.009 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.009 [Task submitter] INFO  nextflow.Session - [29/52363a] Submitted process > SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (1)
+Jan-22 10:47:43.017 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.018 [Task submitter] INFO  nextflow.Session - [f9/7ec5df] Submitted process > SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (2)
+Jan-22 10:47:43.049 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 5; name: SMMIP_ANALYSIS:SMMIP:BWAMEM2_MEM (N23-10420RRR_S12); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/b3/cddefb8da58c86dd550806a47603b5]
+Jan-22 10:47:43.060 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.061 [Task submitter] INFO  nextflow.Session - [41/1cea10] Submitted process > SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (4)
+Jan-22 10:47:43.140 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 13; name: SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (3); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/7a/f05d7deba6e55f1745e9cf60ba0dcb]
+Jan-22 10:47:43.193 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (1); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/29/52363ac5cfe56afc243f065795b32b]
+Jan-22 10:47:43.201 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (2); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/f9/7ec5df0ee7da20801e86c4bcb337d0]
+Jan-22 10:47:43.215 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 14; name: SMMIP_ANALYSIS:SMMIP:MAP_SMMIPS (4); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/41/1cea10a10c7ef0bdf336121d90b815]
+Jan-22 10:47:43.223 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.224 [Task submitter] INFO  nextflow.Session - [78/a357de] Submitted process > SMMIP_ANALYSIS:SMMIP:PILEUPS (3)
+Jan-22 10:47:43.230 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.231 [Task submitter] INFO  nextflow.Session - [07/c56e83] Submitted process > SMMIP_ANALYSIS:SMMIP:PILEUPS (2)
+Jan-22 10:47:43.238 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.238 [Task submitter] INFO  nextflow.Session - [c9/d29d69] Submitted process > SMMIP_ANALYSIS:SMMIP:PILEUPS (1)
+Jan-22 10:47:43.244 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.246 [Task submitter] INFO  nextflow.Session - [fa/ac0a3a] Submitted process > SMMIP_ANALYSIS:SMMIP:PILEUPS (4)
+Jan-22 10:47:43.341 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 18; name: SMMIP_ANALYSIS:SMMIP:PILEUPS (4); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/fa/ac0a3ab8a863252dda20bbc4c9225d]
+Jan-22 10:47:43.367 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 16; name: SMMIP_ANALYSIS:SMMIP:PILEUPS (2); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/07/c56e83fa91ba087cb6379d3a0d0280]
+Jan-22 10:47:43.389 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 15; name: SMMIP_ANALYSIS:SMMIP:PILEUPS (1); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/c9/d29d6968e9721ed879cc36371aca30]
+Jan-22 10:47:43.414 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.414 [Task submitter] INFO  nextflow.Session - [c9/40271b] Submitted process > SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (3)
+Jan-22 10:47:43.417 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.418 [Task submitter] INFO  nextflow.Session - [fa/2fa9e8] Submitted process > SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (1)
+Jan-22 10:47:43.421 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.422 [Task submitter] INFO  nextflow.Session - [44/acd437] Submitted process > SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (2)
+Jan-22 10:47:43.490 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 17; name: SMMIP_ANALYSIS:SMMIP:PILEUPS (3); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/78/a357de8a6d062ab44f024c36b89fd1]
+Jan-22 10:47:43.515 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Jan-22 10:47:43.515 [Task submitter] INFO  nextflow.Session - [1b/69a7fc] Submitted process > SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (4)
+Jan-22 10:47:43.525 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 21; name: SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (3); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/c9/40271bf8e1e085bb958b16036aab91]
+Jan-22 10:47:43.543 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 19; name: SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (1); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/fa/2fa9e82f78c7725cd6b5691707c21e]
+Jan-22 10:47:43.550 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 20; name: SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (2); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/44/acd437fd9e21637ec8bcfdc9900315]
+Jan-22 10:47:43.613 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 22; name: SMMIP_ANALYSIS:SMMIP:CALL_MUTATIONS (4); status: COMPLETED; exit: 0; error: -; workDir: /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/work/1b/69a7fc9605de184982e0cf8e0f6bed]
+Jan-22 10:47:43.614 [main] DEBUG nextflow.Session - Session await > all processes finished
+Jan-22 10:47:43.616 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Jan-22 10:47:43.616 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Jan-22 10:47:43.620 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'PublishDir' shutdown completed (hard=false)
+Jan-22 10:47:43.625 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=22; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=5.8s; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=8; peakCpus=8; peakMemory=0; ]
+Jan-22 10:47:43.625 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Jan-22 10:47:43.627 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Jan-22 10:47:44.283 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Jan-22 10:47:44.434 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Jan-22 10:47:44.469 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Jan-22 10:47:44.470 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
