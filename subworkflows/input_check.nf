@@ -12,7 +12,7 @@ workflow INPUT_CHECK {
     SAMPLESHEET_CHECK ( samplesheet )
         .csv
         .splitCsv ( header:true, sep:',' )
-        .map { create_fastq_channel(it) }
+        .map { create_input_file_channel(it) }
         .set { reads }
 
     emit:
@@ -30,6 +30,24 @@ def create_fastq_channel(LinkedHashMap row) {
     fastq_meta = [ meta, [ file(row.fastq_1), file(row.fastq_2) ] ]
     
     return fastq_meta
+}
+
+def create_input_file_channel(LinkedHashMap row) {
+    // create meta map
+    def meta = [:]
+    meta.id           = row.sample
+    // Check the file extension to determine if it's BAM or FASTQ
+    meta.is_bam = row.bam ? true : false
+
+    //fastq_meta = [ meta, [ file(row.fastq_1), file(row.fastq_2) ] ]
+
+    if (meta.is_bam) {
+        input_file_meta = [meta, [file(row.bam)]]
+    } else {
+        input_file_meta = [meta, [file(row.fastq_1), file(row.fastq_2)]]
+    }
+    
+    return input_file_meta
 }
 
 /*

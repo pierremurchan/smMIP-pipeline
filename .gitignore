@@ -4,4 +4,10 @@ FASTQs/
 assets/
 work
 reference_files/
-.nextflow .nextflow.log .nextflow.log.1 .nextflow.log.2 .nextflow.log.3 .nextflow.log.4 .nextflow.log.5 .nextflow.log.6 .nextflow.log.7 .nextflow.log.8 .nextflow.log.9
+.nextflow*
+exmaple_data
+example
+Example
+dev_data
+singularity
+results_bam

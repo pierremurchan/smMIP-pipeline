@@ -8,7 +8,7 @@ process SAMPLESHEET_CHECK {
 
         script:
     """
-    python /home/pierre/Documents/CMD_PLACEMENT/smMIP/dev_data/bin/check_samplesheet.py \\
+    python ${workflow.projectDir}/bin/check_samplesheet_v2.py \\
         $samplesheet \\
         samplesheet.valid.csv
     """

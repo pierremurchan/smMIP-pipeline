@@ -55,23 +55,26 @@ workflow SMMIP {
 
     INPUT_CHECK( ch_input )
     .reads
-    .map { meta, fastq ->
-        meta.id = meta.id.split('_')[0..-2].join('_')
-        [ meta, fastq ]
+    .branch {
+        meta, reads ->
+            is_bam  : meta.is_bam == true
+                return [meta, reads]
+            is_fastq: meta.is_bam == false
+                return [meta, reads]
     }
-    .set { ch_fastq }
-    
+    .set { ch_input_files }
+
     // SUBWORKFLOW: 
-    // Run FastQC
-    QC( ch_fastq )
+    // Run FastQC on FASTQ files
+    QC( ch_input_files.is_fastq )
 
     // MODULE: 
-    // Align reads
-    BWAMEM2_MEM(ch_fastq, index_ch, sort_bam)
+    // Align FASTQ reads
+    BWAMEM2_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
     .bam
     .set { ch_bam }
 
-    ch_bam.map { it[1] }.set { ch_bam_path }
+    ch_bam_to_map = ch_input_files.is_bam.mix(ch_bam)
 
     //
     // 2. smMIP Analysis
@@ -88,7 +91,7 @@ workflow SMMIP {
     // Module:
     // Map smMIPs
     // will integrate into subworkflow
-    MAP_SMMIPS( ch_bam, ch_design_file )
+    MAP_SMMIPS( ch_bam_to_map, ch_design_file )
     .set { ch_cleaned_bam }
 
     // Module:
@@ -99,10 +102,8 @@ workflow SMMIP {
     .map { it[1] }
     .set { ch_pileups_done }
 
-    ch_pileups_done.view()
-
     // Module:
     // Call mutations
     // will integrate into subworkflow
-    CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam )
+    CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam_to_map )
 }
