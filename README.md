@@ -86,6 +86,7 @@ An annotate smMIP design file can also be passed to the pipeline. If an annotate
 
 In the output directory, the pipeline will generate the following directories:
 
+```
 <outdir>/
 ├── fastqc/
 │   └── ... (FastQC outputs)
@@ -116,8 +117,8 @@ In the output directory, the pipeline will generate the following directories:
         ├── SAMPLE_ID_2_raw_pileup.txt
         ├── SAMPLE_ID_2_sscs_pileup.txt
         └── ...
+```
 
-    
 
 
        
