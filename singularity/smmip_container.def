@@ -1,0 +1,58 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%environment
+    export LANG=C.UTF-8 LC_ALL=C.UTF-8
+    export XDG_RUNTIME_DIR=/tmp/.run_$(uuidgen)
+    export TZ=Europe/Dublin
+    export DEBIAN_FRONTEND=noninteractive
+
+%post
+    export TZ=Europe/Dublin
+    export DEBIAN_FRONTEND=noninteractive
+
+    # Update and Install Dependencies
+    apt-get -y update
+    apt-get install -y --no-install-recommends software-properties-common dirmngr wget uuid-runtime libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libgit2-dev libpng-dev libtiff5-dev libjpeg-dev git
+
+    # Install R
+    export R_VERSION=4.3.2
+    wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+    add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+    apt-get update
+    apt-get install -y --no-install-recommends r-base=${R_VERSION}* r-base-core=${R_VERSION}* r-base-dev=${R_VERSION}* r-recommended=${R_VERSION}* r-base-html=${R_VERSION}* r-doc-html=${R_VERSION}*
+
+    # Configure R Environment
+    echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
+    mkdir -p /usr/lib64/R/etc
+    echo "R_LIBS_USER='/usr/lib64/R/library'" >> /usr/lib64/R/etc/Renviron
+    echo "R_LIBS_SITE='/usr/local/lib/R/site-library'" >> /usr/lib64/R/etc/Renviron
+
+    # Install R packages
+    Rscript -e 'install.packages(c("devtools", "tidyverse", "optparse", "data.table", "parallel", "dplyr", "Rsamtools", "IRanges"))'
+
+    # Install Bioconductor Manager
+    Rscript -e 'install.packages("BiocManager")'
+    Rscript -e 'BiocManager::install("cellbaseR")'
+
+    # Clean up
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+
+    # Install Miniconda
+    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p /miniconda
+    rm Miniconda3-latest-Linux-x86_64.sh
+    . /miniconda/etc/profile.d/conda.sh
+    conda update -y conda
+
+    conda install bioconda::bwa-mem2
+    conda install bioconda::fastqc
+    conda install bioconda::multiqc
+    conda install bioconda::samtools
+
+    # Install GraphViz
+    sudo apt install graphviz
+
+%runscript
+    # Define your runscript here if needed
