@@ -55,22 +55,22 @@ The first is for using FASTQ files as input to the pipeline. In this case, the s
 
 An example samplesheet is given below:
 
-|    sample   |          fastq_1        |         fastq_2         |
-|-------------|-------------------------|-------------------------|
-| Sample_ID_1 | Sample_ID_1_R1.fastq.gz | Sample_ID_1_R2.fastq.gz |
-| Sample_ID_2 | Sample_ID_2_R1.fastq.gz | Sample_ID_2_R2.fastq.gz |
-| Sample_ID_3 | Sample_ID_3_R1.fastq.gz | Sample_ID_3_R2.fastq.gz |
+|    sample   |             fastq_1              |             fastq_2              |
+|-------------|----------------------------------|----------------------------------|
+| Sample_ID_1 | /path/to/Sample_ID_1_R1.fastq.gz | /path/to/Sample_ID_1_R2.fastq.gz |
+| Sample_ID_2 | /path/to/Sample_ID_2_R1.fastq.gz | /path/to/Sample_ID_2_R2.fastq.gz |
+| Sample_ID_3 | /path/to/Sample_ID_3_R1.fastq.gz | /path/to/Sample_ID_3_R2.fastq.gz |
 
 
 The second is for using BAM files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,bam`
 
 An example samplesheet is given below:
 
-|    sample   |          bam        |
-|-------------|---------------------|
-| Sample_ID_1 | Sample_ID_1.bam     |
-| Sample_ID_2 | Sample_ID_2.bam     |
-| Sample_ID_3 | Sample_ID_3.bam     |
+|    sample   |              bam             |
+|-------------|------------------------------|
+| Sample_ID_1 |   /path/to/Sample_ID_1.bam   |
+| Sample_ID_2 |   /path/to/Sample_ID_2.bam   |
+| Sample_ID_3 |   /path/to/Sample_ID_3.bam   |
 
 <!-- TO DO: Add support for using FASTQ files per lane and cat FASTQ files directly in the pipline.
 -->
