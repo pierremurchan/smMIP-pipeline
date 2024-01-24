@@ -25,19 +25,14 @@ process BWAMEM2_MEM {
     """
     INDEX=\$(find -L . -name "*.amb" | sed 's/.amb//')
 
-    bwa-mem2 \\
+    /miniconda/bin/bwa-mem2 \\
         mem \\
         $args \\
         -t $task.cpus \\
         \$INDEX \\
         $reads \\
-        | samtools $samtools_command $args2 -@ $task.cpus -o ${prefix}.bam -
+        | /miniconda/bin/samtools $samtools_command $args2 -@ $task.cpus -o ${prefix}.bam -
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bwamem2: \$(echo \$(bwa-mem2 version 2>&1) | sed 's/.* //')
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
-    END_VERSIONS
     """
 
     stub:

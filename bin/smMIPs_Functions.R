@@ -461,9 +461,7 @@ adjust_readname<-function(d){
   qnames<-unique(d$samtable$qname)
   R1.index<-which(bamFlagAsBitMatrix(as.integer(c(d$samtable$flag)))[,"isFirstMateRead"]==1)
   umi.1<-d$samtable[R1.index,]$umi
-  print(umi.1)
   smmips.1<-d$samtable[R1.index,]$smMIP
-  print(smmips.1)
   names(umi.1)<-names(smmips.1)<-d$samtable[R1.index,]$qname
 
   R2.index<-which(bamFlagAsBitMatrix(as.integer(c(d$samtable$flag)))[,"isSecondMateRead"]==1)

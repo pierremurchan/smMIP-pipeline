@@ -9,7 +9,7 @@ process MULTIQC {
 
     script:
     """
-    multiqc .
+    /miniconda/bin/multiqc .
     """
 
     stub:

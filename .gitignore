@@ -10,3 +10,12 @@ Example
 dev_data
 singularity
 results_bam
+.bashrc
+nohup.out
+results_CMD_data/
+results_CMD_testing_data/
+results*
+smmip_container.sif
+singularity/smmip_container.def
+.nextflow/history
+example_data/results

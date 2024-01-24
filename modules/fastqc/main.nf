@@ -15,7 +15,7 @@ process FASTQC {
     """
     echo "Reads: ${reads}"
     mkdir -p fastqc_${meta.id}_logs
-    fastqc -o fastqc_${meta.id}_logs -f fastq -q ${reads.join(' ')}
+    /miniconda/bin/fastqc -o fastqc_${meta.id}_logs -f fastq -q ${reads.join(' ')}
     """
 
     stub:

@@ -66,7 +66,7 @@ workflow SMMIP {
 
     // SUBWORKFLOW: 
     // Run FastQC on FASTQ files
-    QC( ch_input_files.is_fastq )
+    //QC( ch_input_files.is_fastq )
 
     // MODULE: 
     // Align FASTQ reads
@@ -100,6 +100,7 @@ workflow SMMIP {
     PILEUPS( ch_cleaned_bam, ch_design_file )
     .pileups_done
     .map { it[1] }
+    .collect()
     .set { ch_pileups_done }
 
     // Module:

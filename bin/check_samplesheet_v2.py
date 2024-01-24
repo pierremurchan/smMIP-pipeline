@@ -153,9 +153,11 @@ def check_samplesheet(file_in, file_out):
 
                 for idx, val in enumerate(sample_mapping_dict[sample]):
                     if format_type == "FASTQ":
-                        fout.write(",".join([f"{sample}_T{idx+1}"] + val) + "\n")
+                        #fout.write(",".join([f"{sample}_T{idx+1}"] + val) + "\n")
+                        fout.write(",".join([f"{sample}"] + val) + "\n")
                     else:
-                        fout.write(",".join([f"{sample}_T{idx+1}", val[0], val[1]]) + "\n")
+                        #fout.write(",".join([f"{sample}_T{idx+1}", val[0], val[1]]) + "\n")
+                        fout.write(",".join([f"{sample}", val[0], val[1]]) + "\n")
     else:
         print_error(f"No entries to process!", f"Samplesheet: {file_in}")
 
