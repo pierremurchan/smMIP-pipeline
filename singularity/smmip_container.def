@@ -59,6 +59,10 @@ From: ubuntu:20.04
     conda install bioconda::multiqc
     conda install bioconda::samtools
 
+    #conda install bioconda::fastp
+    #conda install bioconda::gatk4
+    #conda install bioconda::fgbio
+
     export PATH=$PATH:/miniconda/bin/
     
     # Install GraphViz

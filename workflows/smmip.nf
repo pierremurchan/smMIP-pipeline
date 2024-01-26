@@ -87,11 +87,13 @@ workflow SMMIP {
     } else {
         annotated_design_file = ANNOTATE_SNVs( ch_design_file )
     }
+
     
     // Module:
     // Map smMIPs
     // will integrate into subworkflow
     MAP_SMMIPS( ch_bam_to_map, ch_design_file )
+    .clean_bam
     .set { ch_cleaned_bam }
 
     // Module:

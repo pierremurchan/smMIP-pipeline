@@ -18,4 +18,7 @@ results*
 smmip_container.sif
 singularity/smmip_container.def
 .nextflow/history
-example_data/results
+example_data/resultsresults_example_data
+results_example_data_controls
+results_CMD_data_controls
+.nextflow/history
