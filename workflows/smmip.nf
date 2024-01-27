@@ -31,6 +31,7 @@ include { INPUT_CHECK } from '../subworkflows/input_check.nf'
 include { QC } from '../subworkflows/fastqc/fastqc.nf'
 //include { PROCESS_READS } from '../subworkflows/process_reads.nf'
 include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
+include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
 
 //include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
@@ -70,7 +71,11 @@ workflow SMMIP {
 
     // MODULE: 
     // Align FASTQ reads
-    BWAMEM2_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
+    //BWAMEM2_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
+    //.bam
+    //.set { ch_bam }
+
+    BWA_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
     .bam
     .set { ch_bam }
 

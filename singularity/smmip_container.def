@@ -58,6 +58,7 @@ From: ubuntu:20.04
     conda install bioconda::fastqc
     conda install bioconda::multiqc
     conda install bioconda::samtools
+    #conda install bioconda::bwa
 
     #conda install bioconda::fastp
     #conda install bioconda::gatk4

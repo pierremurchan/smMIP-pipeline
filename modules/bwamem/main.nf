@@ -1,6 +1,7 @@
 process BWA_MEM {
     tag "$meta.id"
     label 'process_high'
+    publishDir "${params.outdir}/bwa", mode:'copy'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -9,12 +10,12 @@ process BWA_MEM {
 
     input:
     tuple val(meta), path(reads)
-    tuple val(meta2), path(index)
+    path(index)
     val   sort_bam
 
     output:
-    tuple val(meta), path("*.bam"), emit: bam
-    path  "versions.yml"          , emit: versions
+    tuple val(meta), path("${meta.id}.bam"), emit: bam
+    //path  "versions.yml"          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -34,11 +35,6 @@ process BWA_MEM {
         $reads \\
         | samtools $samtools_command $args2 --threads $task.cpus -o ${prefix}.bam -
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        bwa: \$(echo \$(bwa 2>&1) | sed 's/^.*Version: //; s/Contact:.*\$//')
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
-    END_VERSIONS
     """
 
     stub:
