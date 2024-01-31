@@ -32,17 +32,16 @@ sort_bam = true
 */
 
 include { INPUT_CHECK } from '../subworkflows/input_check.nf'
+include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
+
 include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
-include { QC } from '../subworkflows/fastqc/fastqc.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
-//include { PROCESS_READS } from '../subworkflows/process_reads.nf'
 include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
 include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
 include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
 
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
-//include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
 include { MAP_SMMIPS } from '../modules/map_smmips/main.nf'
 include { PILEUPS } from '../modules/pileups/main.nf'
 include { CALL_MUTATIONS } from '../modules/call_mutations/main.nf'
@@ -96,7 +95,7 @@ workflow SMMIP {
         ch_reports  = ch_reports.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
     }
     
-    BWA_MEM(ch_cat_fastq, index_ch, sort_bam)
+    BWA_MEM( ch_cat_fastq, index_ch, sort_bam )
     .bam
     .set { ch_bam }
 
@@ -120,6 +119,8 @@ workflow SMMIP {
 
     ch_bam_to_map = ch_input_files.is_bam.mix( ch_bam )
 
+    SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file)
+/*
     // Module:
     // Map smMIPs
     // will integrate into subworkflow
@@ -140,4 +141,5 @@ workflow SMMIP {
     // Call mutations
     // will integrate into subworkflow
     CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam_to_map )
+*/
 }
