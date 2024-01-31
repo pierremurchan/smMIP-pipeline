@@ -3,7 +3,11 @@
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.phenotype) { ch_phenotype_file = file(params.phenotype) } else { exit 1, 'Phenotype file not specified!' }
+
+bwa_index = Channel.fromPath(params.bwa)
 if (params.bwa) { index_ch = file(params.bwa) } else { error "No BWA index files provided!" }
+//if (params.fasta) { fasta_ch = file(params.fasta)} else { error "No FASTA file provided!" }
+
 
 if (params.design_file == null) {
     error "No design file provided!"
@@ -29,11 +33,14 @@ sort_bam = true
 
 include { INPUT_CHECK } from '../subworkflows/input_check.nf'
 include { QC } from '../subworkflows/fastqc/fastqc.nf'
+include { FASTQC } from '../modules/fastqc/main.nf'
 //include { PROCESS_READS } from '../subworkflows/process_reads.nf'
 include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
 include { BWA_MEM } from '../modules/bwamem/main.nf'
-include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
+include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
+include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
 
+include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
 //include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
 include { MAP_SMMIPS } from '../modules/map_smmips/main.nf'
 include { PILEUPS } from '../modules/pileups/main.nf'
@@ -46,6 +53,9 @@ include { CALL_MUTATIONS } from '../modules/call_mutations/main.nf'
 */
 
 workflow SMMIP {
+
+    ch_reports  = Channel.empty()
+    ch_versions = Channel.empty()
 
     //
     // 1. Pre-processing
@@ -75,11 +85,21 @@ workflow SMMIP {
     //.bam
     //.set { ch_bam }
 
+    if (!params.skip_fastqc) {
+        FASTQC(ch_input_files.is_fastq)
+        ch_reports  = ch_reports.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+    }
+    
     BWA_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
     .bam
     .set { ch_bam }
 
-    ch_bam_to_map = ch_input_files.is_bam.mix(ch_bam)
+    //SAMTOOLS_INDEX ( ch_bam )
+    //.bai
+    //.set( ch_bai )
+//
+    //ch_bam_bai = ch_bam.join(ch_bai, failOnMismatch:true, failOnDuplicate:true)
+
 
     //
     // 2. smMIP Analysis
@@ -93,7 +113,8 @@ workflow SMMIP {
         annotated_design_file = ANNOTATE_SNVs( ch_design_file )
     }
 
-    
+    ch_bam_to_map = ch_input_files.is_bam.mix( ch_bam )
+
     // Module:
     // Map smMIPs
     // will integrate into subworkflow

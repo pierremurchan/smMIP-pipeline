@@ -12,8 +12,8 @@ process MAP_SMMIPS {
     tuple val(meta), path("${meta.id}_clean.sam")
     //tuple val(meta), path("${meta.id}_filtered.sam")
     tuple val(meta), path("${meta.id}_filtered_read_counts.txt")
-    tuple val(meta), path("${meta.id}_UMI_usage_per_smMIP.txt")
     tuple val(meta), path("${meta.id}_raw_coverage_per_smMIP.txt")
+    tuple val(meta), path("${meta.id}_UMI_usage_per_smMIP.txt")
 
     script:
     """
@@ -21,7 +21,7 @@ process MAP_SMMIPS {
                                                     --panel.file ${design_file} \
                                                     --sample.name ${meta.id} \
                                                     --output \${PWD} \
-                                                    --filtered.reads ${params.filtered_reads} \
+                                                    --filtered.reads n \
                                                     --OVERLAP ${params.OVERLAP} \
                                                     --MAPQ ${params.MAPQ} \
                                                     --threads ${params.threads} \
@@ -35,6 +35,6 @@ process MAP_SMMIPS {
     touch  ${meta.id}_clean.sam
     touch  ${meta.id}_filtered_read_counts.txt
     touch  ${meta.id}_raw_coverage_per_smMIP.txt
-    touch  ${meta.id}_UMI_useage_per_smMIP.txt
+    touch  ${meta.id}_UMI_usage_per_smMIP.txt
     """
 }

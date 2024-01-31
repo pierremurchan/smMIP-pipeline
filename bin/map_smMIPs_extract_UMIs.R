@@ -137,6 +137,8 @@ header[,1]=c(rep("@SQ",length(u)),"@RG","@PG")
 header[,2]=c(paste0("SN:",u),paste0("ID:",opt$sample.name),"ID:bwa")
 header[1:length(u),3]=rep("LN:1",length(u))
 
+header = scanBamHeader(opt$bam.file)
+
 sorted_data <- rbind(header,as.data.frame(data$samtable[order(data$samtable$rname,data$samtable$pos),]))
 
 library(stringr)
