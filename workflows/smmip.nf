@@ -36,7 +36,7 @@ include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
 
 include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
-include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
+//include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
 include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
 include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
@@ -70,7 +70,7 @@ workflow SMMIP {
     .branch {
         meta, reads ->
             is_bam  : meta.is_bam == true
-                return [ meta, reads ]
+                return [ meta, reads.flatten() ]
             single_run_fastq: meta.is_bam == false && reads.size() == 1
                 return [ meta, reads.flatten() ]
             multiple_runs_fastq: meta.is_bam == false && reads.size() > 1
@@ -120,26 +120,5 @@ workflow SMMIP {
     ch_bam_to_map = ch_input_files.is_bam.mix( ch_bam )
 
     SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file)
-/*
-    // Module:
-    // Map smMIPs
-    // will integrate into subworkflow
-    MAP_SMMIPS( ch_bam_to_map, ch_design_file )
-    .clean_bam
-    .set { ch_cleaned_bam }
 
-    // Module:
-    // Pileups
-    // will integrate into subworkflow
-    PILEUPS( ch_cleaned_bam, ch_design_file )
-    .pileups_done
-    .map { it[1] }
-    .collect()
-    .set { ch_pileups_done }
-
-    // Module:
-    // Call mutations
-    // will integrate into subworkflow
-    CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam_to_map )
-*/
 }

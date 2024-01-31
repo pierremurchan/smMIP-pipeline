@@ -14,7 +14,7 @@ workflow SMMIP_TOOLS {
     MAP_SMMIPS( ch_bam_to_map, ch_design_file )
         .clean_bam
         .set { ch_cleaned_bam }
-
+    
     // Module:
     // Pileups
     PILEUPS( ch_cleaned_bam, ch_design_file )
@@ -26,6 +26,5 @@ workflow SMMIP_TOOLS {
     // Module:
     // Call mutations
     CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam_to_map )
-
 
 }

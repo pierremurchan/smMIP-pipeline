@@ -1,6 +1,9 @@
 process MAP_SMMIPS {
-    publishDir "${params.outdir}/smMIP-tools/cleaned_bams/${meta.id}", 
+    publishDir "${params.outdir}/smMIP-tools/cleaned_bams", 
                mode: 'copy'
+
+    //conda "${moduleDir}/environment.yml"
+    container "library://murchanp/smmip-pipeline/smmiptools"
 
     input:
     tuple val(meta), path(bamFile)
@@ -10,7 +13,6 @@ process MAP_SMMIPS {
     tuple val(meta), path("${meta.id}_clean.bam"), emit: clean_bam
     tuple val(meta), path("${meta.id}_clean.bam.bai")
     tuple val(meta), path("${meta.id}_clean.sam")
-    //tuple val(meta), path("${meta.id}_filtered.sam")
     tuple val(meta), path("${meta.id}_filtered_read_counts.txt")
     tuple val(meta), path("${meta.id}_raw_coverage_per_smMIP.txt")
     tuple val(meta), path("${meta.id}_UMI_usage_per_smMIP.txt")

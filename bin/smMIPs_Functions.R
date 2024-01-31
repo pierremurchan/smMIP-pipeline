@@ -522,7 +522,7 @@ write_reason_to_flitered_read<-function(d){
 ########################################################################################
 #Note: all the samples' 'raw_coverage_per_smMIP.txt' and 'filtered_read_counts.txt' files need to be copied to a single folder by the user
 load_qc_coverage_per_smMIP <-function(){
-  files=list.files(opt$dir,pattern="raw_coverage_per_smMIP.txt")
+  files=list.files(paste0(opt$dir),pattern="raw_coverage_per_smMIP.txt")
   if(length(files)==0){print("File names must be formated as Sample_ID_raw_coverage_per_smMIP.txt")}
   for (n in files) {
     f = fread(paste0(opt$dir,"/",n),header=T,sep="\t",showProgress = FALSE)

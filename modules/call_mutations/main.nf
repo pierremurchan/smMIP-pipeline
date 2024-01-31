@@ -1,6 +1,9 @@
 process CALL_MUTATIONS {
     publishDir "${params.outdir}/smMIP-tools/", mode: 'copy'
 
+    //conda "${moduleDir}/environment.yml"
+    container "library://murchanp/smmip-pipeline/smmiptools"
+
     input:
     path phenotype_file
     path anno_design_file
