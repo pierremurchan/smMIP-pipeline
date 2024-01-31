@@ -7,8 +7,11 @@ include { SAMPLESHEET_CHECK } from '../modules/samplesheet_check/main.nf'
 workflow INPUT_CHECK {
     take:
     samplesheet
+    //ch_phenotype
 
     main:
+    //phenotype = params.phenotype ? examine_phenotype(ch_phenotype) : Channel.empty()
+
     SAMPLESHEET_CHECK ( samplesheet )
         .csv
         .splitCsv ( header:true, sep:',' )
@@ -21,17 +24,7 @@ workflow INPUT_CHECK {
     //versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 }
 
-// Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
-def create_fastq_channel(LinkedHashMap row) {
-    // create meta map
-    def meta = [:]
-    meta.id           = row.sample
-
-    fastq_meta = [ meta, [ file(row.fastq_1), file(row.fastq_2) ] ]
-    
-    return fastq_meta
-}
-
+// Function to get list of [ meta, [ fastq_1, fastq_2 ] ] or [meta [ bam ]]
 def create_input_file_channel(LinkedHashMap row) {
     // create meta map
     def meta = [:]
@@ -50,26 +43,25 @@ def create_input_file_channel(LinkedHashMap row) {
     return input_file_meta
 }
 
-/*
+
 def examine_phenotype(pheno){
 
     Channel
         .fromPath(pheno)
-        .splitCsv(header: true, sep: ',')
+        .splitCsv(header: true, sep: '\t')
         .map{ row ->
 
-        def expected_cols = ['condition']
+        def expected_cols = ['id', 'type', 'replicate']
 
-        if (!row.keySet().containsAll(expected_cols)) exit 1, "error: 'condition' is not a column name in the phenotype file.\n\nThe primary response variable must be named 'condition', please refer to the usage documentation online"
+        if (!row.keySet().containsAll(expected_cols)) exit 1, "error: unexpected column name format in the phenotype file, columns should be 'id', 'type', and 'replicate'."
 
-        def condition  = row.condition.matches('NA') ? 'NA' : row.condition
+        def type  = row.type.matches('NA') ? 'NA' : row.type
 
-        if(condition == '') exit 1, "error: Invalid phenotype file, condition column contains empty cells."
-        if(condition.matches('NA')) exit 1, "error: NA value in phenotype condition column."
+        if(type == '') exit 1, "error: Invalid phenotype file, type column contains empty cells."
+        if(type.matches('NA')) exit 1, "error: NA value in phenotype type column."
 
         }
         .toList()
 
         return Channel.value(file(pheno))
 }
-*/

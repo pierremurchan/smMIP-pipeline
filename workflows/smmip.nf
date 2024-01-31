@@ -32,6 +32,7 @@ sort_bam = true
 */
 
 include { INPUT_CHECK } from '../subworkflows/input_check.nf'
+include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
 include { QC } from '../subworkflows/fastqc/fastqc.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
 //include { PROCESS_READS } from '../subworkflows/process_reads.nf'
@@ -66,40 +67,44 @@ workflow SMMIP {
 
     INPUT_CHECK( ch_input )
     .reads
+    .groupTuple(by: [0])
     .branch {
         meta, reads ->
             is_bam  : meta.is_bam == true
-                return [meta, reads]
-            is_fastq: meta.is_bam == false
-                return [meta, reads]
+                return [ meta, reads ]
+            single_run_fastq: meta.is_bam == false && reads.size() == 1
+                return [ meta, reads.flatten() ]
+            multiple_runs_fastq: meta.is_bam == false && reads.size() > 1
+                return [ meta, reads.flatten() ]
     }
     .set { ch_input_files }
 
-    // SUBWORKFLOW: 
-    // Run FastQC on FASTQ files
-    //QC( ch_input_files.is_fastq )
+    // MODULE:
+    // Concatenate FastQ files from same sample if required
+    CAT_FASTQ (
+        ch_input_files.multiple_runs_fastq
+    )
+    .reads
+    .mix(ch_input_files.single_run_fastq )
+    .set{ ch_cat_fastq }
 
     // MODULE: 
-    // Align FASTQ reads
-    //BWAMEM2_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
-    //.bam
-    //.set { ch_bam }
+    // Run FastQC on FASTQ files
 
     if (!params.skip_fastqc) {
-        FASTQC(ch_input_files.is_fastq)
+        FASTQC( ch_cat_fastq )
         ch_reports  = ch_reports.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
     }
     
-    BWA_MEM(ch_input_files.is_fastq, index_ch, sort_bam)
+    BWA_MEM(ch_cat_fastq, index_ch, sort_bam)
     .bam
     .set { ch_bam }
 
     //SAMTOOLS_INDEX ( ch_bam )
     //.bai
     //.set( ch_bai )
-//
-    //ch_bam_bai = ch_bam.join(ch_bai, failOnMismatch:true, failOnDuplicate:true)
 
+    //ch_bam_bai = ch_bam.join(ch_bai, failOnMismatch:true, failOnDuplicate:true)
 
     //
     // 2. smMIP Analysis

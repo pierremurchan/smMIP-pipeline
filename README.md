@@ -51,7 +51,7 @@ nextflow run main.nf --input ./example_data/sample_sheet.csv --design_file ./exa
 
 The pipeline requires a samplesheet in csv format as input. The samplesheet can take two forms.
 
-The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq2`
+The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq2`. If FASTQ files originate from multiple lanes or runs, separate rows shold be included for each lane/run using the same sample ID.
 
 An example samplesheet is given below:
 

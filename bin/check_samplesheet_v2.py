@@ -60,7 +60,6 @@ def check_samplesheet(file_in, file_out):
        sample,fastq_1,fastq_2
        SAMPLE_PE,SAMPLE_PE_RUN1_1.fastq.gz,SAMPLE_PE_RUN1_2.fastq.gz
        SAMPLE_PE,SAMPLE_PE_RUN2_1.fastq.gz,SAMPLE_PE_RUN2_2.fastq.gz
-       SAMPLE_SE,SAMPLE_SE_RUN1_1.fastq.gz,
     2. For BAM format:
        sample,bam
        SAMPLE_PE,SAMPLE_PE_RUN1_1.bam
