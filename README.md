@@ -94,8 +94,8 @@ In the output directory, the pipeline will generate the following directories:
 ├── multiqc/
 │   └── ... (MultiQC outputs)
 |
-├── bwamem2/
-│   └── ... (BWA-MEM2 aligned BAM files)
+├── bwamem/
+│   └── ... (BWA-MEM aligned BAM files)
 |
 ├── pipeline_info
 │   └── ... (Pipeline info)

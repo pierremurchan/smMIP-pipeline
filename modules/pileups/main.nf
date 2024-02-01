@@ -2,7 +2,8 @@ process PILEUPS {
     publishDir "${params.outdir}/smMIP-tools/pileups/", mode: 'copy'
 
     //conda "${moduleDir}/environment.yml"
-    container "library://murchanp/smmip-pipeline/smmiptools"
+    container "library://murchanp/smmip-pipeline/smmiptools:sha256.f59694cb11dc219dca68f370ecf7a653f1a9348af25f54eba5c797e205425173"
+
 
     input:
     tuple val(meta), path(cleaned_bamFile)

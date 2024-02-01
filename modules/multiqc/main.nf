@@ -1,4 +1,4 @@
-process MULTIQC_NF_CORE {
+process MULTIQC {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"

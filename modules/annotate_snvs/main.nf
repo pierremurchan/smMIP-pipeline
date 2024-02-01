@@ -1,5 +1,7 @@
 process ANNOTATE_SNVs {
     publishDir "${params.outdir}/smMIP-tools", mode:'copy'
+    
+    container "library://murchanp/smmip-pipeline/smmiptools:sha256.f59694cb11dc219dca68f370ecf7a653f1a9348af25f54eba5c797e205425173"
 
     input:
     path design_file

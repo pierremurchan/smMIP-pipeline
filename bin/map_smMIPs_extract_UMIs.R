@@ -109,21 +109,33 @@ if((length(unique(data$panel$length.left.umi))==1 & 0 %in% unique(data$panel$len
 
 data<-adjust_readname(data)
 
+
 ################ WRITING UMI USAGE SUMMARY
 if(!((length(unique(data$panel$length.left.umi))==1 & 0 %in% unique(data$panel$length.left.umi)) &
      (length(unique(data$panel$length.right.umi))==1 & 0 %in% unique(data$panel$length.right.umi)))){
   cat("Writing UMIs per smmip summary\n")
   tab=data.frame(V1=data$panel$id,V2=0,V3=0,V4=0,V5=NA)
+  #count=as.data.frame(data$umi_usage)
+  #count=as.data.frame(count %>% group_by(Var2) %>%
+  #                      summarise("Total_unique_UMI_pairs_(molecules)"=length(which(Freq!=0)),
+  #                      Mean_family_size=mean(Freq[which(Freq!=0)]),
+  #                      Median_family_size=median(Freq[which(Freq!=0)])))
   count=as.data.frame(data$umi_usage)
   count=as.data.frame(count %>% group_by(Var2) %>%
-                        summarise("Total_unique_UMI_pairs_(molecules)"=length(which(Freq!=0)),Mean_family_size=mean(Freq[which(Freq!=0)]),Median_family_size=median(Freq[which(Freq!=0)])))
-  names(count)[1]="smMIP"
+    summarise(
+        "Total_unique_UMI_pairs_(molecules)" = length(which(Freq!=0)),
+        "Mean_family_size" = mean(Freq[which(Freq!=0)]),
+        "Median_family_size" = median(Freq[which(Freq!=0)])
+    )
+  )
+
+  names(count)[1]="smMIP" # rename smMIP column
   count$`Theoretical_limit_of_detection_(1/#molecules)`=1/count$`Total_unique_UMI_pairs_(molecules)`
   tab[match(count$smMIP,tab$V1),]=count
   names(tab)=names(count)
+  tab$smMIP = data$panel$id
   #write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_UMI_usage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
   write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"_UMI_usage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
-
 }
 
 ################ WRITING BAM/SAM FILES
@@ -176,6 +188,7 @@ if(opt$filtered.reads=="y"){ #
 } else if (opt$filtered.reads=="n"){
   #Delete the sam file
   #invisible(file.remove(paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam")))
+  invisible(file.remove(paste0(opt$output,"/",opt$sample.name,"_clean.sam")))
 }
 
 cat("\n")

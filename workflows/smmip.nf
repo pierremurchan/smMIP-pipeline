@@ -38,8 +38,10 @@ include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
 //include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
 include { BWA_MEM } from '../modules/bwamem/main.nf'
-include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
-include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
+include { MULTIQC } from '../modules/multiqc/main.nf'
+//include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
+//include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
+include { SMMIP_COVERAGE_HEATMAP } from '../modules/coverage_heatmap/main.nf'
 
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
 include { MAP_SMMIPS } from '../modules/map_smmips/main.nf'
@@ -51,6 +53,8 @@ include { CALL_MUTATIONS } from '../modules/call_mutations/main.nf'
     RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
+def multiqc_report = []
 
 workflow SMMIP {
 
@@ -99,12 +103,6 @@ workflow SMMIP {
     .bam
     .set { ch_bam }
 
-    //SAMTOOLS_INDEX ( ch_bam )
-    //.bai
-    //.set( ch_bai )
-
-    //ch_bam_bai = ch_bam.join(ch_bai, failOnMismatch:true, failOnDuplicate:true)
-
     //
     // 2. smMIP Analysis
     //
@@ -119,6 +117,9 @@ workflow SMMIP {
 
     ch_bam_to_map = ch_input_files.is_bam.mix( ch_bam )
 
-    SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file)
+    // Subworkflow:
+    // smMIP-tools process
+    SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file )
 
+    SMMIP_COVERAGE_HEATMAP( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
 }
