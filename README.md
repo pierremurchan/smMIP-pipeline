@@ -71,7 +71,7 @@ A phenotype file is also required as input to describe the configuration of the 
 
 An example phenotype file is given below:
 
-|      id     |   tpye   |  replicate   |
+|      id     |   type   |  replicate   |
 |-------------|----------|--------------|
 | Sample_ID_1 |   case   |              |
 | Sample_ID_2 |   case   |              |
