@@ -3,15 +3,8 @@
 // Check mandatory parameters
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 if (params.phenotype) { ch_phenotype_file = file(params.phenotype) } else { exit 1, 'Phenotype file not specified!' }
-
-bwa_index = Channel.fromPath(params.bwa)
-if (params.bwa) { index_ch = file(params.bwa) } else { error "No BWA index files provided!" }
-
-if (params.design_file == null) {
-    error "No design file provided!"
-}
-
-ch_design_file = params.design_file ? file(params.design_file) : null
+if (params.design_file) { ch_design_file = file(params.design_file) } else { exit 1,  "No design file provided!" }
+if (params.bwa) { index_ch = file(params.bwa) } else { exit 1, "No BWA index files provided!" }
 
 // Set optional parameters
 sort_bam = true
@@ -51,7 +44,7 @@ workflow SMMIP {
     //
 
     // SUBWORKFLOW:
-    // Validate input samplesheet
+    // Validate input samplesheet and phenotype file
 
     INPUT_CHECK( ch_input, ch_phenotype_file )
     .reads
