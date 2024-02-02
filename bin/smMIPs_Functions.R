@@ -461,9 +461,7 @@ adjust_readname<-function(d){
   qnames<-unique(d$samtable$qname)
   R1.index<-which(bamFlagAsBitMatrix(as.integer(c(d$samtable$flag)))[,"isFirstMateRead"]==1)
   umi.1<-d$samtable[R1.index,]$umi
-  print(umi.1)
   smmips.1<-d$samtable[R1.index,]$smMIP
-  print(smmips.1)
   names(umi.1)<-names(smmips.1)<-d$samtable[R1.index,]$qname
 
   R2.index<-which(bamFlagAsBitMatrix(as.integer(c(d$samtable$flag)))[,"isSecondMateRead"]==1)
@@ -524,7 +522,7 @@ write_reason_to_flitered_read<-function(d){
 ########################################################################################
 #Note: all the samples' 'raw_coverage_per_smMIP.txt' and 'filtered_read_counts.txt' files need to be copied to a single folder by the user
 load_qc_coverage_per_smMIP <-function(){
-  files=list.files(opt$dir,pattern="raw_coverage_per_smMIP.txt")
+  files=list.files(paste0(opt$dir),pattern="raw_coverage_per_smMIP.txt")
   if(length(files)==0){print("File names must be formated as Sample_ID_raw_coverage_per_smMIP.txt")}
   for (n in files) {
     f = fread(paste0(opt$dir,"/",n),header=T,sep="\t",showProgress = FALSE)
@@ -758,7 +756,7 @@ load.annotation.file=function(d){
 }
 
 populate=function(d){
-  d$samples=fread(opt$file,header=T,sep="\t", na.strings = "",showProgress = FALSE, fill=TRUE)
+  d$samples=fread(opt$file,header=T,sep=",", na.strings = "",showProgress = FALSE, fill=TRUE)
   if("TRUE" %in% duplicated(d$samples$id)){
     cat("ERROR >>>>> The input file must contain unique IDs\n")
     quit()
@@ -1537,10 +1535,10 @@ additional.flags = function(d){
 
 categorize=function(){
   #Enriching the mutation list for somatic and pathogenic mutations
-  enriched=calls[-grep("Common SNP", calls$flags)]
-  enriched=enriched[-grep("Potentially germline", enriched$flags)]
-  enriched=enriched[-grep("Likely benign", enriched$flags)]
-  enriched=enriched[-grep("Intronic indel", enriched$flags)]
+  enriched=calls[grep("Common SNP", calls$flags, invert=TRUE)]
+  enriched=enriched[grep("Potentially germline", enriched$flags, invert=TRUE)]
+  enriched=enriched[grep("Likely benign", enriched$flags, invert=TRUE)]
+  enriched=enriched[grep("Intronic indel", enriched$flags, invert=TRUE)]
 
   enriched_indels=enriched[alt=="-" | alt=="+"]
   enriched_snvs=enriched[alt!="-" & alt!="+"]
@@ -1561,11 +1559,9 @@ categorize=function(){
     }
   }
   if(length(idx)>0){enriched_indels=enriched_indels[-unique(idx)]}
-
   #High Confidence calls
-  high.conf.calls.snvs=enriched_snvs[-grep("Cannot be supported by both Read1 and Read2|Cannot be supported by both technical replicates|No SSCS support in one of the replicates|No SSCS support at all|No SSCS support in either Read1 or Read2 in at least one of the replicates|Potential index hopping|VAF Warning", enriched_snvs$flags)]
-  high.conf.calls.indels=enriched_indels[-grep("Cannot be supported by both Read1 and Read2|Cannot be supported by both technical replicates|No SSCS support in one of the replicates|No SSCS support at all|No SSCS support in either Read1 or Read2 in at least one of the replicates|Potential index hopping|VAF Warning", enriched_indels$flags)]
-
+  high.conf.calls.snvs=enriched_snvs[grep("Cannot be supported by both Read1 and Read2|Cannot be supported by both technical replicates|No SSCS support in one of the replicates|No SSCS support at all|No SSCS support in either Read1 or Read2 in at least one of the replicates|Potential index hopping|VAF Warning", enriched_snvs$flags, invert=TRUE)]
+  high.conf.calls.indels=enriched_indels[grep("Cannot be supported by both Read1 and Read2|Cannot be supported by both technical replicates|No SSCS support in one of the replicates|No SSCS support at all|No SSCS support in either Read1 or Read2 in at least one of the replicates|Potential index hopping|VAF Warning", enriched_indels$flags, invert=TRUE)]
   #Lower Confidence calls
   idx1=grep("Potential index hopping|VAF Warning", enriched_snvs$flags)
   idx2=grep("Low coverage|No SSCS support in either Read1 or Read2 in at least one of the replicates", enriched_snvs$flags)

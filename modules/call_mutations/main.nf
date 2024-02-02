@@ -1,6 +1,10 @@
 process CALL_MUTATIONS {
     publishDir "${params.outdir}/smMIP-tools/", mode: 'copy'
 
+    //conda "${moduleDir}/environment.yml"
+    container "library://murchanp/smmip-pipeline/smmiptools:sha256.f59694cb11dc219dca68f370ecf7a653f1a9348af25f54eba5c797e205425173"
+
+
     input:
     path phenotype_file
     path anno_design_file
@@ -8,7 +12,7 @@ process CALL_MUTATIONS {
     tuple val(meta), path(bamFile)
 
     output:
-    path "called_mutations.txt"
+    path "called_mutations.txt", emit: mutation_calls
 
     script:
     """

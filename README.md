@@ -51,7 +51,7 @@ nextflow run main.nf --input ./example_data/sample_sheet.csv --design_file ./exa
 
 The pipeline requires a samplesheet in csv format as input. The samplesheet can take two forms.
 
-The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq2`
+The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq2`. If FASTQ files originate from multiple lanes or runs, separate rows shold be included for each lane/run using the same sample ID.
 
 An example samplesheet is given below:
 
@@ -72,13 +72,8 @@ An example samplesheet is given below:
 | Sample_ID_2 |   /path/to/Sample_ID_2.bam   |
 | Sample_ID_3 |   /path/to/Sample_ID_3.bam   |
 
-<!-- TO DO: Add support for using FASTQ files per lane and cat FASTQ files directly in the pipline.
--->
 
-A phenotype file is also required as input to describe the configuration of the assay. The phenotype file should be a tsv file with the following columns: `id type    replicate`
-
-<!-- TO DO: Modify the phenotype file to be csv format.
--->
+A phenotype file is also required as input to describe the configuration of the assay. The phenotype file should be a csv file with the following columns: `id,type,replicate`.
 
 An annotate smMIP design file can also be passed to the pipeline. If an annotated smMIP design file is not provided, a smMIP design file generated with [MIPgen](https://shendurelab.github.io/MIPGEN/) can be passed to the pipeline and the pipeline will attempt to annotate the smMIP design file using the [cellbaseR](https://bioconductor.org/packages/release/bioc/html/cellbaseR.html).
 
@@ -94,8 +89,8 @@ In the output directory, the pipeline will generate the following directories:
 ├── multiqc/
 │   └── ... (MultiQC outputs)
 |
-├── bwamem2/
-│   └── ... (BWA-MEM2 aligned BAM files)
+├── bwamem/
+│   └── ... (BWA-MEM aligned BAM files)
 |
 ├── pipeline_info
 │   └── ... (Pipeline info)

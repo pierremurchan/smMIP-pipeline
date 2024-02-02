@@ -1,0 +1,16 @@
+id	type	replicate
+control1	case	
+control2	case	
+control3	case	
+control4	case	
+control5	case	
+control6	case	
+control7	case	
+control8	case	
+control9	case	
+control10	case	
+control11	case	
+control12	case	
+control13	case	
+control14	case	
+control16	case	

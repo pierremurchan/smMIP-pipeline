@@ -1,0 +1,9 @@
+name: coverage_heatmap
+channels:
+  - conda-forge
+  - defaults
+  - bioconda
+dependencies:
+  - conda-forge::python=3.8.3
+  - conda-forge::plotly
+  - conda-forge::pandas

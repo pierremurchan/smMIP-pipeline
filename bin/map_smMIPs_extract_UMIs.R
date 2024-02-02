@@ -90,12 +90,14 @@ if((length(unique(data$panel$length.left.umi))==1 & 0 %in% unique(data$panel$len
 ################ DETERMINE COVERAGE PER SMMIP AND WRITING FILTERED READS SUMMARY FILES
 cat("Writing coverage per smMIP and filtered reads summary files\n")
 data$summary$usable_reads<-dim(data$samtable)[1]
-write.table(data$summary,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_filtered_read_counts.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+#write.table(data$summary,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_filtered_read_counts.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+write.table(data$summary,file=paste0(opt$output,"/",opt$sample.name,"_filtered_read_counts.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
 
 tab=data.frame(smmips=data$panel$id,coverage=0)
 x=table(data$samtable$smMIP)
 tab$coverage[match(names(x),tab$smmips)]=x
-write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_raw_coverage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"_raw_coverage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+#write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"_raw_coverage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
 
 
 ################ ASSIGN THE SMMIP NAME AND THE UMI SEQUENCE TO THE READS NAME
@@ -107,19 +109,33 @@ if((length(unique(data$panel$length.left.umi))==1 & 0 %in% unique(data$panel$len
 
 data<-adjust_readname(data)
 
+
 ################ WRITING UMI USAGE SUMMARY
 if(!((length(unique(data$panel$length.left.umi))==1 & 0 %in% unique(data$panel$length.left.umi)) &
      (length(unique(data$panel$length.right.umi))==1 & 0 %in% unique(data$panel$length.right.umi)))){
   cat("Writing UMIs per smmip summary\n")
   tab=data.frame(V1=data$panel$id,V2=0,V3=0,V4=0,V5=NA)
+  #count=as.data.frame(data$umi_usage)
+  #count=as.data.frame(count %>% group_by(Var2) %>%
+  #                      summarise("Total_unique_UMI_pairs_(molecules)"=length(which(Freq!=0)),
+  #                      Mean_family_size=mean(Freq[which(Freq!=0)]),
+  #                      Median_family_size=median(Freq[which(Freq!=0)])))
   count=as.data.frame(data$umi_usage)
   count=as.data.frame(count %>% group_by(Var2) %>%
-                        summarise("Total_unique_UMI_pairs_(molecules)"=length(which(Freq!=0)),Mean_family_size=mean(Freq[which(Freq!=0)]),Median_family_size=median(Freq[which(Freq!=0)])))
-  names(count)[1]="smMIP"
+    summarise(
+        "Total_unique_UMI_pairs_(molecules)" = length(which(Freq!=0)),
+        "Mean_family_size" = mean(Freq[which(Freq!=0)]),
+        "Median_family_size" = median(Freq[which(Freq!=0)])
+    )
+  )
+
+  names(count)[1]="smMIP" # rename smMIP column
   count$`Theoretical_limit_of_detection_(1/#molecules)`=1/count$`Total_unique_UMI_pairs_(molecules)`
   tab[match(count$smMIP,tab$V1),]=count
   names(tab)=names(count)
-  write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_UMI_usage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+  tab$smMIP = data$panel$id
+  #write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_UMI_usage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
+  write.table(tab,file=paste0(opt$output,"/",opt$sample.name,"_UMI_usage_per_smMIP.txt"),col.names = T,row.names = F,quote = F,sep = '\t')
 }
 
 ################ WRITING BAM/SAM FILES
@@ -136,14 +152,22 @@ header[1:length(u),3]=rep("LN:1",length(u))
 sorted_data <- rbind(header,as.data.frame(data$samtable[order(data$samtable$rname,data$samtable$pos),]))
 
 library(stringr)
+#write.table(str_trim(apply(sorted_data, 1, paste, collapse='\t')),
+#            file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam"),
+#            col.names = F,
+#            row.names = F,
+#            quote = F,
+#            sep = '\t') #Can be load to IGV
+
 write.table(str_trim(apply(sorted_data, 1, paste, collapse='\t')),
-            file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam"),
+            file=paste0(opt$output,"/",opt$sample.name,"_clean.sam"),
             col.names = F,
             row.names = F,
             quote = F,
             sep = '\t') #Can be load to IGV
 
-suppressWarnings(asBam(paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam"),paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean"),overwrite=T))
+#suppressWarnings(asBam(paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam"),paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean"),overwrite=T))
+suppressWarnings(asBam(paste0(opt$output,"/",opt$sample.name,"_clean.sam"),paste0(opt$output,"/",opt$sample.name,"_clean"),overwrite=T))
 
 if(opt$filtered.reads=="y"){ #
   cat("Writing the filtered reads sam file\n")
@@ -159,10 +183,12 @@ if(opt$filtered.reads=="y"){ #
   l=as.data.frame(data$filtered[order(data$filtered$rname,data$filtered$pos),])
   l[] <- lapply(l, as.character)
   l[which(is.na(l),arr.ind = T)]=0
-  write.table(rbind(header,l),file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_filtered.sam"),col.names = F,row.names = F,quote = F,sep = '\t')
+  #write.table(rbind(header,l),file=paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_filtered.sam"),col.names = F,row.names = F,quote = F,sep = '\t')
+  write.table(rbind(header,l),file=paste0(opt$output,"/",opt$sample.name,"_filtered.sam"),col.names = F,row.names = F,quote = F,sep = '\t')
 } else if (opt$filtered.reads=="n"){
   #Delete the sam file
   #invisible(file.remove(paste0(opt$output,"/",opt$sample.name,"/",opt$sample.name,"_clean.sam")))
+  invisible(file.remove(paste0(opt$output,"/",opt$sample.name,"_clean.sam")))
 }
 
 cat("\n")
