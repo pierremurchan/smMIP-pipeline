@@ -15,7 +15,7 @@ Firstly, clone the repository:
 git clone https://github.com/pierremurchan/smMIP-pipeline
 ```
 
-Next, install Go and Singuarity using the [official installation instructions](https://docs.sylabs.io/guides/3.0/user-guide/installation.html).
+Next, install [Go](https://go.dev/) and [Singuarity](https://docs.sylabs.io/guides/3.5/user-guide/index.html) using the [official installation instructions](https://docs.sylabs.io/guides/3.0/user-guide/installation.html).
 
 Finally, install [Nextflow](https://www.nextflow.io/) using the [official installation instructions](https://www.nextflow.io/docs/latest/getstarted.html).
 
