@@ -72,13 +72,8 @@ An example samplesheet is given below:
 | Sample_ID_2 |   /path/to/Sample_ID_2.bam   |
 | Sample_ID_3 |   /path/to/Sample_ID_3.bam   |
 
-<!-- TO DO: Add support for using FASTQ files per lane and cat FASTQ files directly in the pipline.
--->
 
-A phenotype file is also required as input to describe the configuration of the assay. The phenotype file should be a tsv file with the following columns: `id type    replicate`
-
-<!-- TO DO: Modify the phenotype file to be csv format.
--->
+A phenotype file is also required as input to describe the configuration of the assay. The phenotype file should be a csv file with the following columns: `id,type,replicate`.
 
 An annotate smMIP design file can also be passed to the pipeline. If an annotated smMIP design file is not provided, a smMIP design file generated with [MIPgen](https://shendurelab.github.io/MIPGEN/) can be passed to the pipeline and the pipeline will attempt to annotate the smMIP design file using the [cellbaseR](https://bioconductor.org/packages/release/bioc/html/cellbaseR.html).
 

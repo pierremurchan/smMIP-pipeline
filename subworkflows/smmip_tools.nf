@@ -1,6 +1,7 @@
 include { MAP_SMMIPS } from '../modules/map_smmips/main.nf'
 include { PILEUPS } from '../modules/pileups/main.nf'
 include { CALL_MUTATIONS } from '../modules/call_mutations/main.nf'
+include { CATEGORISE_MUTATIONS } from '../modules/categorise_mutations/main.nf'
 
 workflow SMMIP_TOOLS {
 
@@ -11,15 +12,13 @@ workflow SMMIP_TOOLS {
     ch_phenotype_file
 
     main:
-    //MAP_SMMIPS( ch_bam_to_map, ch_design_file )
-    //    .clean_bam
-    //    .set { ch_cleaned_bam }
-
+    // Module:
+    // map smMIPS
     MAP_SMMIPS( ch_bam_to_map, ch_design_file )
     ch_cleaned_bam = MAP_SMMIPS.out.clean_bam
     
     // Module:
-    // Pileups
+    // generate pileups
     PILEUPS( ch_cleaned_bam, ch_design_file )
         .pileups_done
         .map { it[1] }
@@ -27,9 +26,13 @@ workflow SMMIP_TOOLS {
         .set { ch_pileups_done }
 
     // Module:
-    // Call mutations
+    // call mutations
     CALL_MUTATIONS ( ch_phenotype_file, ch_annotated_design_file, ch_pileups_done, ch_bam_to_map )
+
+    // Module:
+    // categorise mutations into high and low calls
+    CATEGORISE_MUTATIONS( CALL_MUTATIONS.out.mutation_calls )
     
     emit:
-    map_smmips_done = MAP_SMMIPS.out.map_smmips_done
+    map_smmips_done = MAP_SMMIPS.out.map_smmips_done // again, probably a better way to implement state dependecy
 }

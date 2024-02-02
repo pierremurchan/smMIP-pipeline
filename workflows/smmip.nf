@@ -6,21 +6,12 @@ if (params.phenotype) { ch_phenotype_file = file(params.phenotype) } else { exit
 
 bwa_index = Channel.fromPath(params.bwa)
 if (params.bwa) { index_ch = file(params.bwa) } else { error "No BWA index files provided!" }
-//if (params.fasta) { fasta_ch = file(params.fasta)} else { error "No FASTA file provided!" }
-
 
 if (params.design_file == null) {
     error "No design file provided!"
 }
 
-//if (params.email && !params.email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
-//    error "Invalid email address provided: ${params.email}"
-//}
-
 ch_design_file = params.design_file ? file(params.design_file) : null
-ch_annotated_design_file = params.annotated_design_file ? file(params.annotated_design_file) : null
-
-design_file_channel = params.design_file ? Channel.fromPath(params.design_file) : Channel.empty()
 
 // Set optional parameters
 sort_bam = true
@@ -36,17 +27,11 @@ include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
 
 include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
-//include { BWAMEM2_MEM } from '../modules/bwamem2/main.nf'
 include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { MULTIQC } from '../modules/multiqc/main.nf'
-//include { SAMTOOLS_INDEX } from '../modules/samtools_index/main.nf'
-//include { PICARD_COLLECTHSMETRICS } from '../modules/collecthsmetrics/main.nf'
 include { SMMIP_COVERAGE_HEATMAP } from '../modules/coverage_heatmap/main.nf'
 
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
-include { MAP_SMMIPS } from '../modules/map_smmips/main.nf'
-include { PILEUPS } from '../modules/pileups/main.nf'
-include { CALL_MUTATIONS } from '../modules/call_mutations/main.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +53,7 @@ workflow SMMIP {
     // SUBWORKFLOW:
     // Validate input samplesheet
 
-    INPUT_CHECK( ch_input )
+    INPUT_CHECK( ch_input, ch_phenotype_file )
     .reads
     .groupTuple(by: [0])
     .branch {
@@ -110,9 +95,9 @@ workflow SMMIP {
     // Module:
     // Annotate design file
     if (params.annotated_design_file && file(params.annotated_design_file).exists()) {
-        annotated_design_file = Channel.fromPath(params.annotated_design_file)
+        ch_annotated_design_file = Channel.fromPath(params.annotated_design_file)
     } else {
-        annotated_design_file = ANNOTATE_SNVs( ch_design_file )
+        ch_annotated_design_file = ANNOTATE_SNVs( ch_design_file )
     }
 
     ch_bam_to_map = ch_input_files.is_bam.mix( ch_bam )
@@ -121,5 +106,7 @@ workflow SMMIP {
     // smMIP-tools process
     SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file )
 
+    // Modeule:
+    // generate heatmap of coverage per smMIP per sample
     SMMIP_COVERAGE_HEATMAP( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
 }

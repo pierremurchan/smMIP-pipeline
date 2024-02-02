@@ -7,10 +7,10 @@ include { SAMPLESHEET_CHECK } from '../modules/samplesheet_check/main.nf'
 workflow INPUT_CHECK {
     take:
     samplesheet
-    //ch_phenotype
+    ch_phenotype
 
     main:
-    //phenotype = params.phenotype ? examine_phenotype(ch_phenotype) : Channel.empty()
+    phenotype = params.phenotype ? examine_phenotype(ch_phenotype) : Channel.empty()
 
     SAMPLESHEET_CHECK ( samplesheet )
         .csv
@@ -46,7 +46,7 @@ def examine_phenotype(pheno){
 
     Channel
         .fromPath(pheno)
-        .splitCsv(header: true, sep: '\t')
+        .splitCsv(header: true, sep: ',')
         .map{ row ->
 
         def expected_cols = ['id', 'type', 'replicate']
