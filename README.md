@@ -26,12 +26,6 @@ Finally, install [Nextflow](https://www.nextflow.io/) using the [official instal
 
 ### Running the pipeline
 
-Generally, the pipeline can be run with default parameters by running:
-
-```
-nextflow run main.nf --input ./samplesheet.csv
-```
-
 Example data can be found in the `example_data` directory. To run the pipeline on the example data:
 
 ```
