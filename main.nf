@@ -53,7 +53,7 @@ println """
 include { SMMIP } from './workflows/smmip.nf'
 
 //
-// WORKFLOW: Run main nf-core/circrna analysis pipeline
+// WORKFLOW: Run main analysis pipeline
 //
 
 workflow SMMIP_ANALYSIS {
