@@ -79,7 +79,7 @@ An example phenotype file is given below:
 
 An annotate smMIP design file can also be passed to the pipeline. If an annotated smMIP design file is not provided, a smMIP design file generated with [MIPgen](https://shendurelab.github.io/MIPGEN/) can be passed to the pipeline and the pipeline will attempt to annotate the smMIP design file using the [cellbaseR](https://bioconductor.org/packages/release/bioc/html/cellbaseR.html).
 
-### Output specifications
+### Output specifications (to be updated)
 
 In the output directory, the pipeline will generate the following directories:
 
