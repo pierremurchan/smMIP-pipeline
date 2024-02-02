@@ -17,12 +17,6 @@ git clone https://github.com/pierremurchan/smMIP-pipeline
 
 Next, install Go and Singuarity using the [official installation instructions](https://docs.sylabs.io/guides/3.0/user-guide/installation.html).
 
-To build the Singularity container (note that this requires root access):
-
-```
-singularity build smmip_pipeline.sif singularity/smmip_container.def
-```
-
 Finally, install [Nextflow](https://www.nextflow.io/) using the [official installation instructions](https://www.nextflow.io/docs/latest/getstarted.html).
 
 ---
@@ -41,7 +35,7 @@ nextflow run main.nf --input ./samplesheet.csv
 Example data can be found in the `example_data` directory. To run the pipeline on the example data:
 
 ```
-nextflow run main.nf --input ./example_data/sample_sheet.csv --design_file ./example_data/supplemental_files/Target_MIPgen.txt --annotated_design_file ./example_data/supplemental_files/annotated_Target_MIPgen.txt --phenotype ./example_data/supplemental_files/configuration.txt --output_dir ./example_data/output -with-singularity ./smmip_pipeline.sif
+nextflow run main.nf --input ./example_data/sample_sheet.csv --design_file ./example_data/supplemental_files/Target_MIPgen.txt --annotated_design_file ./example_data/supplemental_files/annotated_Target_MIPgen.txt --phenotype ./example_data/supplemental_files/configuration.csv --output_dir ./example_data/output
 ```
 
 > [!NOTE]
@@ -51,7 +45,7 @@ nextflow run main.nf --input ./example_data/sample_sheet.csv --design_file ./exa
 
 The pipeline requires a samplesheet in csv format as input. The samplesheet can take two forms.
 
-The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq2`. If FASTQ files originate from multiple lanes or runs, separate rows shold be included for each lane/run using the same sample ID.
+The first is for using FASTQ files as input to the pipeline. In this case, the sample sheet should contain the following columns: `sample,fastq_1,fastq_2`. If FASTQ files originate from multiple lanes or runs, separate rows shold be included for each lane/run using the same sample ID.
 
 An example samplesheet is given below:
 

@@ -24,3 +24,7 @@ results_CMD_data_controls
 .nextflow/history
 .nextflow/history
 RESULTS_CMD
+example_data/sample_sheet_local.csv
+example_data/sample_sheet_mod.csv
+example_data/supplemental_files/configuration.txt
+example_data/supplemental_files/configuration_mod.txt
