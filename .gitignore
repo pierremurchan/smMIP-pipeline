@@ -31,3 +31,4 @@ example_data/supplemental_files/configuration_mod.txt
 example_data/supplemental_files/configuration_mod.txt
 example_data/sample_sheet_mod.csv
 lib/WorkflowSMMIP.groovy
+.nextflow/history
