@@ -12,7 +12,7 @@ process CALL_MUTATIONS {
     tuple val(meta), path(bamFile)
 
     output:
-    path "called_mutations.txt", emit: mutation_calls
+    path "called_mutations.txt", emit: called_mutations
 
     script:
     """

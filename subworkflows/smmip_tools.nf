@@ -31,8 +31,9 @@ workflow SMMIP_TOOLS {
 
     // Module:
     // categorise mutations into high and low calls
-    CATEGORISE_MUTATIONS( CALL_MUTATIONS.out.mutation_calls )
+    CATEGORISE_MUTATIONS( CALL_MUTATIONS.out.called_mutations )
     
     emit:
     map_smmips_done = MAP_SMMIPS.out.map_smmips_done // again, probably a better way to implement state dependecy
+    called_mutations = CALL_MUTATIONS.out.called_mutations
 }

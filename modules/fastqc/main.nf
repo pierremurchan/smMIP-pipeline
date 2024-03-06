@@ -1,7 +1,6 @@
 process FASTQC {
     tag "$meta.id"
-    publishDir "${params.outdir}/fastqc", mode:'copy'
-    //label 'process_medium'
+    label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -14,8 +13,7 @@ process FASTQC {
     output:
     tuple val(meta), path("*.html"), emit: html
     tuple val(meta), path("*.zip") , emit: zip
-    //path  "versions.yml"           , emit: versions
-    //path("fastqc_${meta.id}_logs")
+    path  "versions.yml"           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -36,27 +34,22 @@ process FASTQC {
         $args \\
         --threads $task.cpus \\
         $renamed_files
-    """
 
-    //"""
-    //echo "Reads: ${reads}"
-    //mkdir -p fastqc_${meta.id}_logs
-    ///miniconda/bin/fastqc -o fastqc_${meta.id}_logs -f fastq -q ${reads.join(' ')}
-    //"""
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        fastqc: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
+    END_VERSIONS
+    """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}.html
     touch ${prefix}.zip
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        fastqc: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
+    END_VERSIONS
     """
-
-    //"""
-    //mkdir -p "fastqc_${meta.id}_logs"
-
-    //cat <<-END_VERSIONS > versions.yml
-    //"${task.process}":
-    //    fastqc: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )
-    //END_VERSIONS
-    //"""
 }

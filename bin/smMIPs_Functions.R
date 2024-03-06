@@ -757,6 +757,7 @@ load.annotation.file=function(d){
 
 populate=function(d){
   d$samples=fread(opt$file,header=T,sep=",", na.strings = "",showProgress = FALSE, fill=TRUE)
+  print(d$samples)
   if("TRUE" %in% duplicated(d$samples$id)){
     cat("ERROR >>>>> The input file must contain unique IDs\n")
     quit()

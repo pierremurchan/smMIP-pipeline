@@ -6,6 +6,8 @@ if (params.phenotype) { ch_phenotype_file = file(params.phenotype) } else { exit
 if (params.design_file) { ch_design_file = file(params.design_file) } else { exit 1,  "No design file provided!" }
 if (params.bwa) { index_ch = file(params.bwa) } else { exit 1, "No BWA index files provided!" }
 
+ch_fasta = Channel.empty() // ch_fasta is needed by certain nf-core modules, but we will have no need for it
+
 // Set optional parameters
 sort_bam = true
 
@@ -20,9 +22,13 @@ include { SMMIP_TOOLS } from '../subworkflows/smmip_tools.nf'
 
 include { CAT_FASTQ } from '../modules/cat_fastq/main.nf'
 include { FASTQC } from '../modules/fastqc/main.nf'
+include { FASTQC_TRIMGALORE } from '../subworkflows/fastqc_trimgalore/main.nf'
+include { BAM_SORT_STATS_SAMTOOLS } from '../subworkflows/bam_sort_stats_samtools/main.nf'
+
 include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { MULTIQC } from '../modules/multiqc/main.nf'
 include { SMMIP_COVERAGE_HEATMAP } from '../modules/coverage_heatmap/main.nf'
+include { VARIANT_REPORT } from '../modules/variant_report/main.nf'
 
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
 
@@ -38,6 +44,9 @@ workflow SMMIP {
 
     ch_reports  = Channel.empty()
     ch_versions = Channel.empty()
+
+    ch_fasta.map{ it -> [ [id: it.simpleName], [it] ]
+    }.set{ fasta_tuple }
 
     //
     // 1. Pre-processing
@@ -72,25 +81,52 @@ workflow SMMIP {
     // MODULE: 
     // Run FastQC on FASTQ files
 
-    if (!params.skip_fastqc) {
-        FASTQC( ch_cat_fastq )
+    //if (!params.skip_fastqc) {
+    //    FASTQC( ch_cat_fastq )
+    //
+    //    ch_reports = ch_reports.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+    //
+    //}
 
-        ch_multiqc_files = Channel.empty()
-        ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-        ch_multiqc_files = ch_multiqc_files.mix(ch_reports.collect().ifEmpty([]))
-
-        MULTIQC (
-        ch_multiqc_files.collect()
-        //ch_multiqc_config.toList(),
-        //ch_multiqc_custom_config.toList(),
-        //ch_multiqc_logo.toList()
+    FASTQC_TRIMGALORE (
+        ch_cat_fastq,
+        params.skip_fastqc,
+        params.skip_trimming
     )
+    ch_versions = ch_versions.mix(FASTQC_TRIMGALORE.out.versions)
+    ch_reports  = ch_reports.mix(FASTQC_TRIMGALORE.out.trim_zip.collect{it[1]}.ifEmpty([]))
+    ch_reports  = ch_reports.mix(FASTQC_TRIMGALORE.out.trim_log.collect{it[1]}.ifEmpty([]))
+
+    // MODULE:
+    // Align reads with BWA-MEM
     
-    }
-    
-    BWA_MEM( ch_cat_fastq, index_ch, sort_bam )
+    //BWA_MEM( ch_cat_fastq, index_ch, sort_bam )
+    //.bam
+    //.set { ch_bam }
+    ch_cat_fastq.view()
+
+    BWA_MEM( FASTQC_TRIMGALORE.out.reads, index_ch, sort_bam )
     .bam
     .set { ch_bam }
+
+    // SUBWORKFLOW:
+    // Generate alignment statistics
+
+    BAM_SORT_STATS_SAMTOOLS( BWA_MEM.out.bam, fasta_tuple )
+
+    ch_reports = ch_reports.mix(BAM_SORT_STATS_SAMTOOLS.out.stats.map{ meta, stats -> stats})
+    ch_reports = ch_reports.mix(BAM_SORT_STATS_SAMTOOLS.out.flagstat.map{ meta, flagstat -> flagstat})
+    ch_reports = ch_reports.mix(BAM_SORT_STATS_SAMTOOLS.out.idxstats.map{ meta, idxstats -> idxstats})
+
+    // MODULE:
+    // Run MultiQC
+
+    ch_multiqc_files = Channel.empty()
+    ch_multiqc_files = ch_multiqc_files.mix(ch_reports.collect().ifEmpty([]))
+
+    MULTIQC (
+        ch_multiqc_files.collect()
+    )
 
     //
     // 2. smMIP Analysis
@@ -110,7 +146,12 @@ workflow SMMIP {
     // smMIP-tools process
     SMMIP_TOOLS( ch_bam_to_map,  ch_design_file, ch_annotated_design_file, ch_phenotype_file )
 
-    // Modeule:
+    // Module:
     // generate heatmap of coverage per smMIP per sample
     SMMIP_COVERAGE_HEATMAP( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
+
+    // Module:
+    // generate a variant report
+    // NOT YET IMPLEMENTED
+    VARIANT_REPORT( SMMIP_TOOLS.out.called_mutations, SMMIP_COVERAGE_HEATMAP.out, ch_phenotype_file)
 }
