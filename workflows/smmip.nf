@@ -28,6 +28,7 @@ include { BAM_SORT_STATS_SAMTOOLS } from '../subworkflows/bam_sort_stats_samtool
 include { BWA_MEM } from '../modules/bwamem/main.nf'
 include { MULTIQC } from '../modules/multiqc/main.nf'
 include { SMMIP_COVERAGE_HEATMAP } from '../modules/coverage_heatmap/main.nf'
+include { OUTPUT_CSV } from '../modules/output_csv/main.nf'
 include { VARIANT_REPORT } from '../modules/variant_report/main.nf'
 
 include { ANNOTATE_SNVs } from '../modules/annotate_snvs/main.nf'
@@ -81,13 +82,6 @@ workflow SMMIP {
     // MODULE: 
     // Run FastQC on FASTQ files
 
-    //if (!params.skip_fastqc) {
-    //    FASTQC( ch_cat_fastq )
-    //
-    //    ch_reports = ch_reports.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-    //
-    //}
-
     FASTQC_TRIMGALORE (
         ch_cat_fastq,
         params.skip_fastqc,
@@ -103,7 +97,6 @@ workflow SMMIP {
     //BWA_MEM( ch_cat_fastq, index_ch, sort_bam )
     //.bam
     //.set { ch_bam }
-    ch_cat_fastq.view()
 
     BWA_MEM( FASTQC_TRIMGALORE.out.reads, index_ch, sort_bam )
     .bam
@@ -113,6 +106,7 @@ workflow SMMIP {
     // Generate alignment statistics
 
     BAM_SORT_STATS_SAMTOOLS( BWA_MEM.out.bam, fasta_tuple )
+    ch_versions = ch_versions.mix(BAM_SORT_STATS_SAMTOOLS.out.versions)
 
     ch_reports = ch_reports.mix(BAM_SORT_STATS_SAMTOOLS.out.stats.map{ meta, stats -> stats})
     ch_reports = ch_reports.mix(BAM_SORT_STATS_SAMTOOLS.out.flagstat.map{ meta, flagstat -> flagstat})
@@ -122,6 +116,7 @@ workflow SMMIP {
     // Run MultiQC
 
     ch_multiqc_files = Channel.empty()
+    ch_multiqc_files = ch_multiqc_files.mix(FASTQC_TRIMGALORE.out.fastqc_zip.collect{it[1]}.ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(ch_reports.collect().ifEmpty([]))
 
     MULTIQC (
@@ -149,6 +144,11 @@ workflow SMMIP {
     // Module:
     // generate heatmap of coverage per smMIP per sample
     SMMIP_COVERAGE_HEATMAP( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
+
+    // Module:
+    // generate output csv
+    // TO DO: include variants in output csv
+    OUTPUT_CSV( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
 
     // Module:
     // generate a variant report

@@ -1,7 +1,6 @@
 process SMMIP_COVERAGE_HEATMAP {
     publishDir "${params.outdir}/smMIP-tools/", mode: 'copy'
     
-    //conda "${moduleDir}/environment.yml"
     container "library://murchanp/smmip-pipeline/python3.8_plotly_pandas.sif:sha256.2835d23990d1960b1fa6d85b27b502c967ae3e71373945c4c8e8b3b8523b82ec"
 
     input:

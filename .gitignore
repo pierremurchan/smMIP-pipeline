@@ -34,3 +34,5 @@ lib/WorkflowSMMIP.groovy
 .nextflow/history
 RESULTS
 coverage_heatmap.html
+RESULTS_NMD_CASES
+RESULTS_NMD_CASES_smmiptools_params
