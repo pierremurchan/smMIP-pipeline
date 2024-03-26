@@ -147,11 +147,10 @@ workflow SMMIP {
 
     // Module:
     // generate output csv
-    // TO DO: include variants in output csv
-    OUTPUT_CSV( SMMIP_TOOLS.out.map_smmips_done.map { it[1] }.collect() )
+    OUTPUT_CSV( SMMIP_TOOLS.out.high_conf_snvs, SMMIP_TOOLS.out.high_conf_indels, ch_phenotype_file )
 
     // Module:
     // generate a variant report
-    // NOT YET IMPLEMENTED
+    // REMOVE IN FUTURE VERSION
     VARIANT_REPORT( SMMIP_TOOLS.out.called_mutations, SMMIP_COVERAGE_HEATMAP.out, ch_phenotype_file)
 }

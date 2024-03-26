@@ -9,10 +9,10 @@ process CATEGORISE_MUTATIONS {
     path(mutation_calls)
 
     output:
-    path "High_Confidence_Indels.txt"
-    path "Lower_Confidence_Indels.txt"
-    path "High_Confidence_SNVs.txt"
-    path "Lower_Confidence_SNVs.txt"
+    path "High_Confidence_Indels.txt", emit: high_conf_indels
+    path "Lower_Confidence_Indels.txt", emit: low_conf_indels
+    path "High_Confidence_SNVs.txt", emit: high_conf_snvs
+    path "Lower_Confidence_SNVs.txt", emit: low_conf_snvs
 
     script:
     """

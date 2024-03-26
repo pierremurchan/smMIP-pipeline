@@ -7,17 +7,22 @@ process OUTPUT_CSV {
         'biocontainers/pandas:1.5.2' }"
 
     input:
-    path (map_smmips_done)
+    path (high_conf_snvs)
+    path (high_conf_indels)
+    path (phenotype_file)
 
     output:
-    path 'coverage.csv'
+    path 'output_summary.csv'
     path "versions.yml", emit: versions
 
     script:
     """
-    python ${workflow.projectDir}/bin/calculate_coverage.py --input-dir ${workflow.projectDir}/${params.outdir}/smMIP-tools/cleaned_bams \\
+    python ${workflow.projectDir}/bin/smmip_pipeline_output_csv.py --cleaned-bams-dir ${workflow.projectDir}/${params.outdir}/smMIP-tools/cleaned_bams \\
+                                                     --high-conf-snvs ${high_conf_snvs} \\
+                                                     --high-conf-indels ${high_conf_indels} \\
+                                                     --configuration-csv ${phenotype_file} \\
                                                      --sex-coverage-threshold 50 \\
-                                                     --output coverage.csv
+                                                     --output output_summary.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
